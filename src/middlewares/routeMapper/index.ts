@@ -1,18 +1,11 @@
 import axios from 'axios'
 import { Request, Response, NextFunction } from 'express'
 
-import { Auth } from '@/types/Auth'
+import { ensureAuthenticated, getAuthToken } from './authService'
 
-let token = ''
-let tokenExpiration = 0
 const baseURL = 'https://ecommerce-carretao.herokuapp.com/api'
 
-const authCredentials = {
-  email: process.env.ERP_EMAIL || '',
-  password: process.env.ERP_PASSWORD || ''
-}
-
-const allowedRoutes = [
+const allowedRoutesERP = [
   { method: 'GET', path: '/category' },
   { method: 'GET', path: '/list-product' }
 ]
@@ -20,7 +13,7 @@ const allowedRoutes = [
 export const routeMapper = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { method, path } = req
 
-  const route = allowedRoutes.find(route => {
+  const route = allowedRoutesERP.find(route => {
     const routePath = route.path.replace(/:\w+/g, '[^/]+')
     const regex = new RegExp(`^${routePath}$`)
 
@@ -35,7 +28,7 @@ export const routeMapper = async (req: Request, res: Response, next: NextFunctio
   try {
     await ensureAuthenticated()
 
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`
     const erpResponse = await axios({
       method,
       url: `${baseURL}${path}`,
@@ -47,7 +40,7 @@ export const routeMapper = async (req: Request, res: Response, next: NextFunctio
     if (axios.isAxiosError(error)) {
       console.error('Axios error:', error.message)
       if (error.response?.status === 401) {
-        await login()
+        await ensureAuthenticated() // Re-authenticate and retry
         return routeMapper(req, res, next)
       }
 
@@ -56,20 +49,5 @@ export const routeMapper = async (req: Request, res: Response, next: NextFunctio
       console.error('Unexpected error:', error)
       res.status(500).json({ error })
     }
-  }
-}
-
-async function login() {
-  const response = await axios.post<Auth>(`${baseURL}/auth`, authCredentials, {
-    headers: { 'Content-Type': 'application/json' }
-  })
-
-  token = response.data.token
-  tokenExpiration = Date.now() + 12 * 60 * 60 * 1000 // Token expira em 12 horas
-}
-
-async function ensureAuthenticated() {
-  if (!token || Date.now() >= tokenExpiration) {
-    await login()
   }
 }
