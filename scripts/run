@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Mate os processos existentes do MongoDB e Node.js
+sudo pkill mongod
+sudo pkill node
+
+# Inicie e habilite o serviço MongoDB
+sudo systemctl start mongod 
+sudo systemctl enable mongod
+
+# Inicie o MongoDB com caminhos específicos em segundo plano
+mongod --dbpath ~/data/db --logpath ~/data/log/mongodb/mongo.log --fork
+
+cd /var/www/azeplastdesk/glpi/plugins/azeplast-backend
+# Inicie o Node.js com npm em segundo plano
+npm run start &
+
+# Confirmação
+echo "MongoDB e Node.js foram reiniciados."
