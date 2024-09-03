@@ -5,6 +5,7 @@ import morgan from 'morgan'
 
 import { exception, exceptionValidation, notFound } from './middlewares'
 
+import { routeMapper } from './middlewares/routeMapper'
 import { router } from './router'
 
 import dotenv from 'dotenv'
@@ -30,6 +31,7 @@ app.use(
 app.options('*', cors())
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal'])
 
+app.use('/erp', routeMapper)
 app.use(router)
 
 app.use(notFound)
