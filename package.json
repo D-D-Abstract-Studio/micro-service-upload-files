@@ -6,7 +6,8 @@
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
     "@types/multer": "^1.4.11",
-    "@types/node": "^22.5.4"
+    "@types/node": "^22.5.4",
+    "@types/uuid": "^10.0.0"
   },
   "peerDependencies": {
     "typescript": "^5.4.5"
@@ -22,12 +23,11 @@
     "multer": "^1.4.5-lts.1",
     "node": "^20.14.0",
     "translatte": "^3.0.1",
+    "uuid": "^10.0.0",
     "zod": "^3.23.6"
   },
   "scripts": {
     "dev": "bun run --watch ./src/index.ts",
-    "dev:run": "node --inspect -r ./dist/dev.js --watch dist/src",
-    "build": "./scripts/build",
-    "start": "node build/index.js"
+    "start": "bun run ./src/index.ts"
   }
 }

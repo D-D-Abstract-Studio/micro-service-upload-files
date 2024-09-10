@@ -4,6 +4,8 @@ import { resolve } from 'node:path'
 import { format } from 'date-fns'
 import multer from 'multer'
 
+import { v4 as uuidv4 } from 'uuid'
+
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
     const dir = resolve(__dirname, '..', 'uploads')
@@ -15,13 +17,11 @@ const storage = multer.diskStorage({
     cb(null, dir)
   },
   filename: (_req, file, cb) => {
-    const originalNameUtf8 = Buffer.from(file.originalname, 'latin1').toString('utf8')
-    const fileBaseName = originalNameUtf8.split('.')[0].replace(/\s/g, '_')
-
-    const timestamp = format(new Date(), 'dd-MM-yyyy-HH:mm:ss:mmm')
+    const datePart = format(new Date(), 'dd-MM-yyyy')
+    const uniqueId = uuidv4()
     const fileExtension = file.mimetype.split('/')[1]
 
-    cb(null, `${timestamp}-${fileBaseName}-.${fileExtension}`)
+    cb(null, `${datePart}-${uniqueId}.${fileExtension}`)
   }
 })
 
