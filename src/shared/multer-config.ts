@@ -6,7 +6,7 @@ import multer from 'multer'
 
 import { v4 as uuidv4 } from 'uuid'
 
-const storage = multer.diskStorage({
+const storageConfig = multer.diskStorage({
   destination: (_req, _file, cb) => {
     const dir = resolve(__dirname, '..', 'uploads')
 
@@ -25,4 +25,4 @@ const storage = multer.diskStorage({
   }
 })
 
-export const upload = multer({ storage })
+export const uploadAndProcessImages = multer({ storage: storageConfig }).array('files')
