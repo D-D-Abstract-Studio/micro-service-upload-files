@@ -1,0 +1,22 @@
+{
+  "jsc": {
+    "target": "esnext",
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false
+    },
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic"
+      }
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  },
+  "sourceMaps": true
+}
