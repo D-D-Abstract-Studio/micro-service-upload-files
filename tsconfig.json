@@ -2,9 +2,9 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "CommonJS",
-    "outDir": "./dist",
-    "baseUrl": "./src",
-    "rootDir": "./src",
+    "outDir": "dist",
+    "baseUrl": "src",
+    "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,

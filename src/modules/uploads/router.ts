@@ -5,8 +5,7 @@ import { endpoint } from '@/middlewares'
 import { deleteUploadController } from './removeUpload/controller'
 import { createUploadsController } from './createUploads/controller'
 import { getOneUploadController } from './getOneUpload/controller'
-
-import { uploadAndProcessImages } from '@/shared/multer-config'
+import { uploadAndProcessImages } from '../../shared/multer-config'
 
 const router = Router()
 

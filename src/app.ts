@@ -26,7 +26,6 @@ app.use(
     credentials: true
   })
 )
-
 app.options('*', cors())
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal'])
 

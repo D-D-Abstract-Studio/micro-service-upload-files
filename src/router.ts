@@ -12,3 +12,7 @@ const routerModules = readdirSync(join(__dirname, 'modules')).filter(f => f !== 
     router.use(`/${routerModule}`, (await import(join(__dirname, 'modules', routerModule, 'router'))).default)
   }
 })()
+
+router.get('/', (_req, res) => {
+  res.send('API is running 🚀')
+})

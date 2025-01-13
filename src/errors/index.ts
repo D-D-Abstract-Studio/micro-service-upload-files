@@ -1,2 +1,2 @@
-export * from './httpError';
-export * from './isHttpError';
+export * from './httpError'
+export * from './isHttpError'

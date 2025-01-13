@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/@types/express.d.ts"],"sourcesContent":["import { IUser } from '@/models/User'\nimport 'express-serve-static-core'\n\ndeclare global {\n  namespace Express {\n    interface Request {\n      user?: IUser\n    }\n  }\n}\n"],"names":[],"mappings":";;;;QACO"}
